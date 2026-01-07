@@ -45,17 +45,17 @@ const GallerySection = () => {
         </motion.div>
 
         <div className="relative">
-          {/* Scroll buttons */}
+          {/* Scroll buttons - hidden on mobile */}
           <button
             onClick={() => scroll('left')}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg transition-all"
+            className="hidden md:block absolute left-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg transition-all"
             aria-label="Scroll left"
           >
             <ChevronLeft className="w-6 h-6 text-gray-800" />
           </button>
           <button
             onClick={() => scroll('right')}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg transition-all"
+            className="hidden md:block absolute right-0 top-1/2 -translate-y-1/2 z-10 bg-white/80 hover:bg-white p-2 rounded-full shadow-lg transition-all"
             aria-label="Scroll right"
           >
             <ChevronRight className="w-6 h-6 text-gray-800" />
@@ -64,41 +64,28 @@ const GallerySection = () => {
           {/* Horizontal scrollable container */}
           <div 
             ref={scrollContainerRef}
-            className="flex gap-4 overflow-x-auto scroll-smooth pb-4 scrollbar-hide"
-            style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
+            className="flex gap-4 overflow-x-scroll pb-4 -mx-6 px-6 md:mx-0 md:px-0"
+            style={{ 
+              scrollbarWidth: 'none',
+              msOverflowStyle: 'none',
+              WebkitOverflowScrolling: 'touch',
+              overscrollBehaviorX: 'contain',
+            }}
           >
             {images.map((image, index) => (
-              <motion.div
+              <div
                 key={index}
-                className="relative flex-shrink-0 w-64 h-64 md:w-80 md:h-80 overflow-hidden rounded-lg cursor-pointer group"
-                initial={{ opacity: 0, scale: 0.5, rotateY: -90 }}
-                whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
-                viewport={{ once: true }}
-                transition={{ 
-                  duration: 0.6, 
-                  delay: Math.min(index * 0.05, 0.5),
-                  type: "spring",
-                  stiffness: 100
-                }}
-                whileHover={{ 
-                  scale: 1.05,
-                  zIndex: 10,
-                  transition: { duration: 0.3 }
-                }}
+                className="relative flex-shrink-0 w-64 h-64 md:w-80 md:h-80 overflow-hidden rounded-lg cursor-pointer"
                 onClick={() => setSelectedImage(image)}
               >
-                <motion.img 
+                <img 
                   src={image} 
                   alt={`Gallery ${index + 1}`}
-                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  className="w-full h-full object-cover"
                   loading="lazy"
+                  draggable="false"
                 />
-                <motion.div 
-                  className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300"
-                  initial={{ opacity: 0 }}
-                  whileHover={{ opacity: 1 }}
-                />
-              </motion.div>
+              </div>
             ))}
           </div>
         </div>

@@ -3,10 +3,7 @@ import { motion } from "framer-motion";
 const CoupleSection = () => {
   return (
     <section 
-      className="py-20 px-6 bg-fixed bg-cover bg-center relative"
-      style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/PRIM3257.webp')`
-      }}
+      className="py-20 px-6 bg-background relative"
     >
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-light to-transparent" />
       
@@ -18,7 +15,7 @@ const CoupleSection = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="font-serif text-4xl md:text-5xl text-white mb-4">Bride & Groom</h2>
+          <h2 className="font-serif text-4xl md:text-5xl text-primary mb-4">Bride & Groom</h2>
           <div className="w-20 h-[1px] bg-gold mx-auto" />
         </motion.div>
 
@@ -38,14 +35,20 @@ const CoupleSection = () => {
             >
               {/* Frame container */}
               <motion.div 
-                className="bg-white/10 backdrop-blur-sm rounded-[2.5rem] p-3 border-4 border-white/40 shadow-2xl"
+                className="rounded-[2.5rem] p-3 border-4 border-gold/30"
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  boxShadow: '0 20px 60px rgba(0, 0, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.15)',
+                }}
                 initial={{ rotateY: -90, opacity: 0 }}
                 whileInView={{ rotateY: 0, opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.3 }}
                 whileHover={{ 
-                  boxShadow: "0 0 30px rgba(255, 215, 0, 0.5)",
-                  borderColor: "rgba(255, 215, 0, 0.6)"
+                  boxShadow: "0 25px 70px rgba(0, 0, 0, 0.3), 0 0 40px rgba(255, 215, 0, 0.4)",
+                  borderColor: "rgba(255, 215, 0, 0.8)"
                 }}
               >
                 {/* Photo */}
@@ -70,14 +73,14 @@ const CoupleSection = () => {
                 transition={{ delay: 0.6, type: "spring", stiffness: 200 }}
                 whileHover={{ scale: 1.1, textShadow: "0 0 20px rgba(255,215,0,0.8)" }}
               >
-                <p className="font-serif text-3xl md:text-4xl text-white drop-shadow-lg" style={{ fontFamily: 'Brush Script MT, cursive' }}>
+                <p className="font-serif text-3xl md:text-4xl text-primary drop-shadow-lg" style={{ fontFamily: 'Brush Script MT, cursive' }}>
                   Rocky
                 </p>
               </motion.div>
             </motion.div>
             
             <motion.h3 
-              className="font-serif text-2xl md:text-3xl text-white mt-12 mb-3 font-bold"
+              className="font-serif text-2xl md:text-3xl text-primary mt-12 mb-3 font-bold"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -86,7 +89,7 @@ const CoupleSection = () => {
               Rocky FJ Pinem
             </motion.h3>
             <motion.p 
-              className="text-white/90 leading-relaxed font-bold"
+              className="text-foreground leading-relaxed font-bold"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
@@ -114,14 +117,20 @@ const CoupleSection = () => {
             >
               {/* Frame container */}
               <motion.div 
-                className="bg-white/10 backdrop-blur-sm rounded-[2.5rem] p-3 border-4 border-white/40 shadow-2xl"
+                className="rounded-[2.5rem] p-3 border-4 border-gold/30"
+                style={{
+                  backgroundColor: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(8px)',
+                  WebkitBackdropFilter: 'blur(8px)',
+                  boxShadow: '0 20px 60px rgba(0, 0, 0, 0.25), 0 10px 30px rgba(0, 0, 0, 0.15)',
+                }}
                 initial={{ rotateY: 90, opacity: 0 }}
                 whileInView={{ rotateY: 0, opacity: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.8, delay: 0.5 }}
                 whileHover={{ 
-                  boxShadow: "0 0 30px rgba(255, 215, 0, 0.5)",
-                  borderColor: "rgba(255, 215, 0, 0.6)"
+                  boxShadow: "0 25px 70px rgba(0, 0, 0, 0.3), 0 0 40px rgba(255, 215, 0, 0.4)",
+                  borderColor: "rgba(255, 215, 0, 0.8)"
                 }}
               >
                 {/* Photo */}
@@ -146,14 +155,14 @@ const CoupleSection = () => {
                 transition={{ delay: 0.8, type: "spring", stiffness: 200 }}
                 whileHover={{ scale: 1.1, textShadow: "0 0 20px rgba(255,215,0,0.8)" }}
               >
-                <p className="font-serif text-3xl md:text-4xl text-white drop-shadow-lg" style={{ fontFamily: 'Brush Script MT, cursive' }}>
+                <p className="font-serif text-3xl md:text-4xl text-primary drop-shadow-lg" style={{ fontFamily: 'Brush Script MT, cursive' }}>
                   Desy
                 </p>
               </motion.div>
             </motion.div>
             
             <motion.h3 
-              className="font-serif text-2xl md:text-3xl text-white mt-12 mb-3 font-bold"
+              className="font-serif text-2xl md:text-3xl text-primary mt-12 mb-3 font-bold"
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
@@ -162,7 +171,7 @@ const CoupleSection = () => {
               Desy Marthalina Br Tarigan
             </motion.h3>
             <motion.p 
-              className="text-white/90 leading-relaxed font-bold"
+              className="text-foreground leading-relaxed font-bold"
               initial={{ opacity: 0 }}
               whileInView={{ opacity: 1 }}
               viewport={{ once: true }}

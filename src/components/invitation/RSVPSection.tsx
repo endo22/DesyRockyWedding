@@ -181,11 +181,13 @@ const RSVPSection = () => {
 
   return (
     <section 
-      className="py-20 px-6 bg-cover bg-center bg-fixed relative"
+      className="py-20 px-6 relative"
       style={{
         backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('/img/PRIM3302.webp')`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'scroll',
       }}
     >
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-light to-transparent" />

@@ -4,11 +4,13 @@ import { Heart } from "lucide-react";
 const FooterSection = () => {
   return (
     <footer 
-      className="py-16 px-6 bg-cover bg-center bg-fixed relative"
+      className="py-16 px-6 relative"
       style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('/img/DSC06678.webp')`,
+        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.7), rgba(0,0,0,0.8)), url('/img/PRIM3257.webp')`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'scroll',
       }}
     >
       {/* Decorative separator */}

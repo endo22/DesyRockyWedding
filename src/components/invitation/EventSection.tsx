@@ -43,7 +43,12 @@ const EventSection = () => {
           {events.map((event, index) => (
             <motion.div
               key={event.title}
-              className="bg-white/70 backdrop-blur-sm p-8 rounded-lg shadow-2xl border border-white/50 text-center"
+              className="p-8 rounded-lg shadow-2xl border border-white/50 text-center"
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.75)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+              }}
               initial={{ opacity: 0, scale: 0.8, rotateX: -20 }}
               whileInView={{ opacity: 1, scale: 1, rotateX: 0 }}
               viewport={{ once: true }}

@@ -8,7 +8,7 @@ const GiftSection = () => {
 
   const bankAccounts = [
     {
-      bank: "BCA",
+      bank: "",
       accountNumber: "0680107149",
       accountName: "Rocky Fj Pinem",
       logo: "/bank/bca.png",
@@ -16,19 +16,56 @@ const GiftSection = () => {
   ];
 
   const copyToClipboard = (text: string, index: number) => {
-    navigator.clipboard.writeText(text);
-    setCopiedIndex(index);
-    toast.success("Nomor rekening berhasil disalin!");
-    setTimeout(() => setCopiedIndex(null), 2000);
+    // Try modern clipboard API first
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          setCopiedIndex(index);
+          toast.success("Nomor rekening berhasil disalin!");
+          setTimeout(() => setCopiedIndex(null), 2000);
+        })
+        .catch(() => {
+          // Fallback if clipboard API fails
+          fallbackCopy(text, index);
+        });
+    } else {
+      // Use fallback for non-secure contexts (http, local IP)
+      fallbackCopy(text, index);
+    }
+  };
+
+  const fallbackCopy = (text: string, index: number) => {
+    // Create a temporary textarea
+    const textArea = document.createElement("textarea");
+    textArea.value = text;
+    textArea.style.position = "fixed";
+    textArea.style.left = "-999999px";
+    textArea.style.top = "-999999px";
+    document.body.appendChild(textArea);
+    textArea.focus();
+    textArea.select();
+    
+    try {
+      document.execCommand('copy');
+      setCopiedIndex(index);
+      toast.success("Nomor rekening berhasil disalin!");
+      setTimeout(() => setCopiedIndex(null), 2000);
+    } catch (err) {
+      toast.error("Gagal menyalin. Silakan salin manual.");
+    } finally {
+      textArea.remove();
+    }
   };
 
   return (
     <section 
-      className="py-20 px-6 relative bg-cover bg-center bg-fixed"
+      className="py-20 px-6 relative"
       style={{
         backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('/img/DSC06678.webp')`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'scroll',
       }}
     >
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-light to-transparent" />
@@ -54,7 +91,12 @@ const GiftSection = () => {
           {bankAccounts.map((account, index) => (
             <motion.div
               key={account.bank}
-              className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/50 shadow-xl w-full max-w-md"
+              className="rounded-lg p-6 border border-white/50 shadow-xl w-full max-w-md"
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.45)',
+                backdropFilter: 'blur(12px)',
+                WebkitBackdropFilter: 'blur(12px)',
+              }}
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

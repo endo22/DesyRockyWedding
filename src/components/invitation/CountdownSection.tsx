@@ -45,11 +45,13 @@ const CountdownSection = () => {
 
   return (
     <section 
-      className="py-20 px-6 relative bg-cover bg-center bg-fixed"
+      className="py-20 px-6 relative"
       style={{
         backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('/img/PRIM3302.webp')`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'scroll',
       }}
     >
       <div className="max-w-4xl mx-auto text-center text-white">
@@ -75,7 +77,12 @@ const CountdownSection = () => {
           {timeBlocks.map((block, index) => (
             <motion.div
               key={block.label}
-              className="bg-white/70 backdrop-blur-sm rounded-lg p-4 md:p-6"
+              className="rounded-lg p-4 md:p-6"
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.75)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
+              }}
               initial={{ opacity: 0, scale: 0, rotate: -180 }}
               whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
               viewport={{ once: true }}

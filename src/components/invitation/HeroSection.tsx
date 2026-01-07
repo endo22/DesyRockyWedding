@@ -3,14 +3,13 @@ import { motion } from "framer-motion";
 const HeroSection = () => {
   return (
     <section 
-      className="min-h-screen flex items-center justify-center relative bg-cover bg-center bg-fixed"
-      // style={{
-      //   backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.5)), url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?q=80&w=2069')`,
-      // }}
+      className="min-h-screen flex items-center justify-center relative"
       style={{
         backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('/img/PRIM3283.webp')`,
         backgroundSize: 'cover',
-        backgroundPosition: 'center',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'scroll',
       }}
     >
       <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-gold-light to-transparent" />
@@ -55,13 +54,18 @@ const HeroSection = () => {
         </motion.p>
 
         <motion.div
-          className="mt-12 p-6 bg-black/20 backdrop-blur-sm rounded-lg max-w-lg mx-auto"
+          className="mt-12 p-6 rounded-lg max-w-lg mx-auto border border-white/20"
+          style={{
+            backgroundColor: 'rgba(0, 0, 0, 0.3)',
+            backdropFilter: 'blur(8px)',
+            WebkitBackdropFilter: 'blur(8px)',
+          }}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.8 }}
         >
-          <p className="font-serif italic text-lg leading-relaxed opacity-90">
+          <p className="font-serif italic text-lg leading-relaxed">
             "Sebab itu laki-laki akan meninggalkan ayahnya dan ibunya dan bersatu dengan istrinya, 
             sehingga keduanya menjadi satu daging."
           </p>

@@ -38,9 +38,13 @@ const StorySection = () => {
 
   return (
     <section 
-      className="relative py-20 overflow-hidden bg-fixed bg-cover bg-center"
+      className="relative py-20 overflow-hidden"
       style={{
-        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/PRIM3302.webp')`
+        backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('/img/PRIM3302.webp')`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        backgroundAttachment: 'scroll',
       }}
     >
       {/* Decorative top border */}
@@ -85,7 +89,14 @@ const StorySection = () => {
               >
                 {/* Content Card */}
                 <div className={`w-full md:w-5/12 ${item.position === "left" ? "md:mr-auto md:pr-8" : "md:ml-auto md:pl-8"}`}>
-                  <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-xl border border-white/50">
+                  <div 
+                    className="rounded-lg p-6 shadow-xl border border-white/50"
+                    style={{
+                      backgroundColor: 'rgba(255, 255, 255, 0.7)',
+                      backdropFilter: 'blur(16px)',
+                      WebkitBackdropFilter: 'blur(16px)',
+                    }}
+                  >
                     <div className="flex items-center gap-3 mb-3">
                       <div className="bg-gold text-white rounded-full px-4 py-2 font-bold text-sm">
                         {item.speaker}
