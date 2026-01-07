@@ -241,7 +241,7 @@ const RSVPSection = () => {
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="pemberkatan">Pemberkatan</SelectItem>
-                    <SelectItem value="resepsi">Resepsi</SelectItem>
+                    <SelectItem value="resepsi">Pesta Adat</SelectItem>
                     <SelectItem value="keduanya">Keduanya</SelectItem>
                   </SelectContent>
                 </Select>
