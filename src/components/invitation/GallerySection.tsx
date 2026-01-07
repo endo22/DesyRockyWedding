@@ -8,8 +8,8 @@ const GallerySection = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Dynamically import all images from public/img folder
-    const imageModules = import.meta.glob('/public/img/*.{jpg,jpeg,png,webp}', { eager: true, as: 'url' });
+    // Dynamically import all images from public/img folder without eager loading
+    const imageModules = import.meta.glob('/public/img/*.webp', { as: 'url' });
     const imagePaths = Object.keys(imageModules).map(path => path.replace('/public', ''));
     setImages(imagePaths.sort());
   }, []);
@@ -81,6 +81,7 @@ const GallerySection = () => {
                   src={image} 
                   alt={`Gallery ${index + 1}`}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                  loading="lazy"
                 />
                 <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
               </motion.div>

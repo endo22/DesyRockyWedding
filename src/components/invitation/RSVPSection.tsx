@@ -171,7 +171,7 @@ const RSVPSection = () => {
     <section 
       className="py-20 px-6 bg-cover bg-center bg-fixed relative"
       style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('/img/PRIM3302.jpg')`,
+        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('/img/PRIM3302.webp')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}

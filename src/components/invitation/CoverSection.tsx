@@ -10,7 +10,7 @@ const CoverSection = ({ guestName, onOpen }: CoverSectionProps) => {
     <motion.section 
       className="fixed inset-0 z-50 flex items-center justify-center bg-cover bg-center bg-no-repeat md:bg-top"
       style={{
-        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('/img/PRIM3257.jpg')`,
+        backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('/img/PRIM3257.webp')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}

@@ -27,7 +27,7 @@ const CoupleSection = () => {
             <div className="relative mb-6">
               <div className="w-48 h-48 md:w-64 md:h-64 mx-auto rounded-full overflow-hidden border-4 border-gold/30">
                 <img 
-                  src="/img/DSC06604.jpg" 
+                  src="/img/DSC06604.webp" 
                   alt="Rocky FJ Pinem"
                   className="w-full h-full object-cover"
                 />
@@ -65,7 +65,7 @@ const CoupleSection = () => {
             <div className="relative mb-6">
               <div className="w-48 h-48 md:w-64 md:h-64 mx-auto rounded-full overflow-hidden border-4 border-gold/30">
                 <img 
-                  src="/img/DSC06610.jpg" 
+                  src="/img/DSC06610.webp" 
                   alt="Desy Marthalina Br Tarigan"
                   className="w-full h-full object-cover"
                 />
