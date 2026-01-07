@@ -10,7 +10,6 @@ import EventSection from "@/components/invitation/EventSection";
 import RSVPSection from "@/components/invitation/RSVPSection";
 import GallerySection from "@/components/invitation/GallerySection";
 import GiftSection from "@/components/invitation/GiftSection";
-import WishesSection from "@/components/invitation/WishesSection";
 import FooterSection from "@/components/invitation/FooterSection";
 import ThemeToggle from "@/components/invitation/ThemeToggle";
 import MusicPlayer from "@/components/invitation/MusicPlayer";
@@ -57,7 +56,6 @@ const Index = () => {
           <RSVPSection />
           <GallerySection />
           <GiftSection />
-          <WishesSection />
           <FooterSection />
           <ThemeToggle />
           <MusicPlayer autoPlay />

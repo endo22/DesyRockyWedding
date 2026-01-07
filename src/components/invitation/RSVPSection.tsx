@@ -1,14 +1,29 @@
 import { motion } from "framer-motion";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Send, CheckCircle } from "lucide-react";
+import { Send, CheckCircle, Heart } from "lucide-react";
+
+interface Wish {
+  id: string;
+  name: string;
+  attendance: "yes" | "no";
+  message: string;
+  timestamp: Date;
+}
+
+// Google Apps Script Web App URLs
+const GOOGLE_SCRIPT_RSVP_URL = import.meta.env.VITE_GOOGLE_SCRIPT_RSVP_URL || "";
+const GOOGLE_SCRIPT_WISHES_URL = import.meta.env.VITE_GOOGLE_SCRIPT_URL || "";
 
 const RSVPSection = () => {
   const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [wishes, setWishes] = useState<Wish[]>([]);
+  const [isLoadingWishes, setIsLoadingWishes] = useState(true);
   const [formData, setFormData] = useState({
     name: "",
     attendance: "",
@@ -17,17 +32,120 @@ const RSVPSection = () => {
     message: "",
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Load wishes from Google Sheets
+  useEffect(() => {
+    const loadWishes = async () => {
+      if (!GOOGLE_SCRIPT_WISHES_URL) {
+        setIsLoadingWishes(false);
+        return;
+      }
+
+      try {
+        const response = await fetch(GOOGLE_SCRIPT_WISHES_URL);
+        const data = await response.json();
+        
+        if (data.wishes && Array.isArray(data.wishes)) {
+          const wishesData = data.wishes.map((wish: any) => ({
+            ...wish,
+            timestamp: new Date(wish.timestamp)
+          }));
+          setWishes(wishesData);
+        }
+      } catch (error) {
+        console.error("Error loading wishes:", error);
+      } finally {
+        setIsLoadingWishes(false);
+      }
+    };
+
+    loadWishes();
+    
+    // Reload wishes every 30 seconds
+    const interval = setInterval(loadWishes, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const formatTime = (date: Date) => {
+    const now = new Date();
+    const diffInHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
+    
+    if (diffInHours < 1) {
+      const diffInMinutes = Math.floor((now.getTime() - date.getTime()) / (1000 * 60));
+      return diffInMinutes < 1 ? 'Baru saja' : `${diffInMinutes} menit yang lalu`;
+    } else if (diffInHours < 24) {
+      return `${diffInHours} jam yang lalu`;
+    } else {
+      const diffInDays = Math.floor(diffInHours / 24);
+      return `${diffInDays} hari yang lalu`;
+    }
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.name || !formData.attendance) {
-      toast.error("Mohon lengkapi nama dan konfirmasi kehadiran");
+    if (!formData.name || !formData.attendance || !formData.message) {
+      toast.error("Mohon lengkapi nama, konfirmasi kehadiran, dan ucapan");
       return;
     }
 
-    // Simulate form submission
-    setSubmitted(true);
-    toast.success("Terima kasih atas konfirmasi Anda!");
+    if (!GOOGLE_SCRIPT_RSVP_URL || !GOOGLE_SCRIPT_WISHES_URL) {
+      toast.error("Konfigurasi Google Sheets belum diatur");
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    try {
+      // Submit ke RSVP Sheet
+      await fetch(GOOGLE_SCRIPT_RSVP_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          attendance: formData.attendance,
+          event: formData.event || '-',
+          guests: formData.guests || '-',
+          message: formData.message,
+          timestamp: new Date().toISOString()
+        })
+      });
+
+      // Submit ke Wishes Sheet (untuk ditampilkan publik)
+      await fetch(GOOGLE_SCRIPT_WISHES_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          attendance: formData.attendance,
+          message: formData.message,
+          timestamp: new Date().toISOString()
+        })
+      });
+
+      // Add to local wishes immediately
+      const newWish: Wish = {
+        id: Date.now().toString(),
+        name: formData.name,
+        attendance: formData.attendance as "yes" | "no",
+        message: formData.message,
+        timestamp: new Date()
+      };
+      setWishes(prev => [newWish, ...prev]);
+
+      setSubmitted(true);
+      toast.success("Terima kasih atas konfirmasi dan ucapan Anda!");
+    } catch (error) {
+      console.error("Error submitting:", error);
+      toast.error("Terjadi kesalahan. Silakan coba lagi.");
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (submitted) {
@@ -142,21 +260,91 @@ const RSVPSection = () => {
           <div>
             <label className="block text-sm font-medium mb-2">Ucapan untuk Mempelai</label>
             <Textarea
-              placeholder="Tulis ucapan Anda..."
+              placeholder="Tulis ucapan dan doa Anda..."
               value={formData.message}
               onChange={(e) => setFormData({ ...formData, message: e.target.value })}
               className="bg-background min-h-[100px]"
+              required
+              maxLength={500}
             />
+            <div className="text-right text-xs text-muted-foreground mt-1">
+              {formData.message.length}/500
+            </div>
           </div>
 
           <Button 
             type="submit" 
             className="w-full bg-gold hover:bg-gold/90 text-primary-foreground"
+            disabled={isSubmitting}
           >
             <Send className="w-4 h-4 mr-2" />
-            Kirim Konfirmasi
+            {isSubmitting ? 'Mengirim...' : 'Kirim Konfirmasi & Ucapan'}
           </Button>
         </motion.form>
+
+        {/* Wishes Display */}
+        <motion.div
+          className="mt-16"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.4 }}
+        >
+          <div className="text-center mb-8">
+            <Heart className="w-8 h-8 text-gold mx-auto mb-4" />
+            <h3 className="font-serif text-3xl text-primary mb-2">Ucapan dari Tamu</h3>
+            <div className="w-16 h-[1px] bg-gold mx-auto" />
+          </div>
+
+          {isLoadingWishes ? (
+            <div className="text-center text-muted-foreground py-8">
+              <p>Memuat ucapan...</p>
+            </div>
+          ) : (
+            <div className="space-y-4 max-h-[500px] overflow-y-auto">
+              {wishes.length === 0 ? (
+                <div className="text-center text-muted-foreground py-8">
+                  <p>Belum ada ucapan. Jadilah yang pertama! 💕</p>
+                </div>
+              ) : (
+                wishes.map((wish, index) => (
+                  <motion.div
+                    key={wish.id}
+                    className="bg-background p-6 rounded-lg shadow-sm border border-border"
+                    initial={{ opacity: 0, x: -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 0.5, delay: index * 0.05 }}
+                  >
+                    <div className="flex items-start gap-4">
+                      <div className="w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center flex-shrink-0">
+                        <Heart className="w-5 h-5 text-gold" />
+                      </div>
+                      <div className="flex-1">
+                        <div className="flex items-center justify-between mb-2">
+                          <h4 className="font-semibold text-foreground">{wish.name}</h4>
+                          <span className="text-xs text-muted-foreground">{formatTime(wish.timestamp)}</span>
+                        </div>
+                        <p className="text-muted-foreground text-sm leading-relaxed mb-2">{wish.message}</p>
+                        <div className="flex items-center gap-2">
+                          <span className="text-xs text-muted-foreground">
+                            {wish.attendance === 'yes' ? '✅ Akan hadir' : '❌ Tidak dapat hadir'}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+                  </motion.div>
+                ))
+              )}
+            </div>
+          )}
+
+          <div className="mt-6 text-center">
+            <p className="text-muted-foreground text-sm">
+              {wishes.length} ucapan dari tamu undangan
+            </p>
+          </div>
+        </motion.div>
       </div>
     </section>
   );
