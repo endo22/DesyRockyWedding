@@ -13,12 +13,6 @@ const GiftSection = () => {
       accountName: "Rocky Fj Pinem",
       logo: "/bank/bca.png",
     },
-    // {
-    //   bank: "Mandiri",
-    //   accountNumber: "700011396806",
-    //   accountName: "Desy Marthalina Br Tarigan",
-    //   logo: "/bank/mandiri.png",
-    // },
   ];
 
   const copyToClipboard = (text: string, index: number) => {
@@ -56,11 +50,11 @@ const GiftSection = () => {
           </p>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="flex justify-center">
           {bankAccounts.map((account, index) => (
             <motion.div
               key={account.bank}
-              className="bg-white/80 backdrop-blur-sm rounded-lg p-6 border border-white/50 shadow-xl"
+              className="bg-white/60 backdrop-blur-sm rounded-lg p-6 border border-white/50 shadow-xl w-full max-w-md"
               initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}

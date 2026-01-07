@@ -71,19 +71,33 @@ const GallerySection = () => {
               <motion.div
                 key={index}
                 className="relative flex-shrink-0 w-64 h-64 md:w-80 md:h-80 overflow-hidden rounded-lg cursor-pointer group"
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
+                initial={{ opacity: 0, scale: 0.5, rotateY: -90 }}
+                whileInView={{ opacity: 1, scale: 1, rotateY: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: Math.min(index * 0.05, 0.5) }}
+                transition={{ 
+                  duration: 0.6, 
+                  delay: Math.min(index * 0.05, 0.5),
+                  type: "spring",
+                  stiffness: 100
+                }}
+                whileHover={{ 
+                  scale: 1.05,
+                  zIndex: 10,
+                  transition: { duration: 0.3 }
+                }}
                 onClick={() => setSelectedImage(image)}
               >
-                <img 
+                <motion.img 
                   src={image} 
                   alt={`Gallery ${index + 1}`}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                   loading="lazy"
                 />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
+                <motion.div 
+                  className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300"
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                />
               </motion.div>
             ))}
           </div>

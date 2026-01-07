@@ -44,18 +44,53 @@ const EventSection = () => {
             <motion.div
               key={event.title}
               className="bg-white/70 backdrop-blur-sm p-8 rounded-lg shadow-2xl border border-white/50 text-center"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0.8, rotateX: -20 }}
+              whileInView={{ opacity: 1, scale: 1, rotateX: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
+              transition={{ 
+                duration: 0.8, 
+                delay: index * 0.3,
+                type: "spring",
+                stiffness: 100
+              }}
+              whileHover={{ 
+                scale: 1.05,
+                boxShadow: "0 20px 40px rgba(212, 175, 55, 0.3)",
+                transition: { duration: 0.3 }
+              }}
             >
-              <div className="w-16 h-16 bg-gold/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <motion.div 
+                className="w-16 h-16 bg-gold/20 rounded-full flex items-center justify-center mx-auto mb-6"
+                initial={{ scale: 0, rotate: -180 }}
+                whileInView={{ scale: 1, rotate: 0 }}
+                viewport={{ once: true }}
+                transition={{ 
+                  delay: index * 0.3 + 0.3,
+                  type: "spring",
+                  stiffness: 200
+                }}
+                whileHover={{ rotate: 360, scale: 1.1 }}
+              >
                 <event.icon className="w-8 h-8 text-gold" />
-              </div>
+              </motion.div>
 
-              <h3 className="font-serif text-2xl text-primary mb-4 font-bold">{event.title}</h3>
+              <motion.h3 
+                className="font-serif text-2xl text-primary mb-4 font-bold"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.3 + 0.4 }}
+              >
+                {event.title}
+              </motion.h3>
               
-              <div className="space-y-3 text-gray-700">
+              <motion.div 
+                className="space-y-3 text-gray-700"
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.3 + 0.5, duration: 0.6 }}
+              >
                 <p className="font-semibold text-gray-900">{event.date}</p>
                 
                 <div className="flex items-center justify-center gap-2">
@@ -67,14 +102,18 @@ const EventSection = () => {
                   <p className="font-bold text-gray-900 mb-1">{event.venue}</p>
                   <p className="text-sm font-medium">{event.address}</p>
                 </div>
-              </div>
+              </motion.div>
 
               <motion.a
                 href={event.mapLink}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 mt-6 px-6 py-2 bg-gold text-primary-foreground font-bold rounded-full hover:bg-gold/90 transition-colors"
-                whileHover={{ scale: 1.05 }}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.3 + 0.6 }}
+                whileHover={{ scale: 1.1, boxShadow: "0 0 20px rgba(212, 175, 55, 0.5)" }}
                 whileTap={{ scale: 0.95 }}
               >
                 <MapPin className="w-4 h-4" />

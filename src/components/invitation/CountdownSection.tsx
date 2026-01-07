@@ -76,17 +76,40 @@ const CountdownSection = () => {
             <motion.div
               key={block.label}
               className="bg-white/70 backdrop-blur-sm rounded-lg p-4 md:p-6"
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0, scale: 0, rotate: -180 }}
+              whileInView={{ opacity: 1, scale: 1, rotate: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+              transition={{ 
+                duration: 0.6, 
+                delay: 0.3 + index * 0.15,
+                type: "spring",
+                stiffness: 150
+              }}
+              whileHover={{ 
+                scale: 1.1,
+                rotate: [0, -5, 5, -5, 0],
+                boxShadow: "0 10px 30px rgba(212, 175, 55, 0.4)",
+                transition: { duration: 0.5 }
+              }}
             >
-              <div className="font-serif text-3xl md:text-5xl text-gold mb-2 font-bold">
+              <motion.div 
+                className="font-serif text-3xl md:text-5xl text-gold mb-2 font-bold"
+                key={block.value}
+                initial={{ scale: 1.5, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+              >
                 {block.value.toString().padStart(2, "0")}
-              </div>
-              <div className="text-xs md:text-sm tracking-wider uppercase opacity-80 font-semibold text-gray-900">
+              </motion.div>
+              <motion.div 
+                className="text-xs md:text-sm tracking-wider uppercase opacity-80 font-semibold text-gray-900"
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 0.8, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.5 + index * 0.15 }}
+              >
                 {block.label}
-              </div>
+              </motion.div>
             </motion.div>
           ))}
         </div>

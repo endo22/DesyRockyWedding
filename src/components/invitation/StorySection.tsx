@@ -77,18 +77,14 @@ const StorySection = () => {
             {timeline.map((item, index) => (
               <motion.div
                 key={index}
-                className={`relative flex items-center ${
-                  item.position === "left"
-                    ? "md:flex-row-reverse md:justify-end"
-                    : "md:flex-row md:justify-start"
-                } justify-start`}
+                className="relative flex items-center justify-center"
                 initial={{ opacity: 0, x: item.position === "left" ? -50 : 50 }}
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
               >
                 {/* Content Card */}
-                <div className={`w-full md:w-5/12 ${item.position === "left" ? "md:pr-8" : "md:pl-8"}`}>
+                <div className={`w-full md:w-5/12 ${item.position === "left" ? "md:mr-auto md:pr-8" : "md:ml-auto md:pl-8"}`}>
                   <div className="bg-white/80 backdrop-blur-sm rounded-lg p-6 shadow-xl border border-white/50">
                     <div className="flex items-center gap-3 mb-3">
                       <div className="bg-gold text-white rounded-full px-4 py-2 font-bold text-sm">
