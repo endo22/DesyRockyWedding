@@ -24,6 +24,7 @@ const RSVPSection = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [wishes, setWishes] = useState<Wish[]>([]);
   const [isLoadingWishes, setIsLoadingWishes] = useState(true);
+  const [currentPage, setCurrentPage] = useState(0);
   const [formData, setFormData] = useState({
     name: "",
     attendance: "",
@@ -64,6 +65,17 @@ const RSVPSection = () => {
     const interval = setInterval(loadWishes, 30000);
     return () => clearInterval(interval);
   }, []);
+
+  // Auto-rotate wishes every 5 seconds
+  useEffect(() => {
+    if (wishes.length <= 5) return;
+    
+    const interval = setInterval(() => {
+      setCurrentPage((prev) => (prev + 1) % Math.ceil(wishes.length / 5));
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [wishes.length]);
 
   const formatTime = (date: Date) => {
     const now = new Date();
@@ -310,40 +322,56 @@ const RSVPSection = () => {
               <p className="font-semibold">Memuat ucapan...</p>
             </div>
           ) : (
-            <div className="space-y-4 max-h-[500px] overflow-y-auto">
+            <div className="space-y-4">
               {wishes.length === 0 ? (
                 <div className="text-center text-white py-8">
                   <p className="font-semibold">Belum ada ucapan. Jadilah yang pertama! 💕</p>
                 </div>
               ) : (
-                wishes.map((wish, index) => (
-                  <motion.div
-                    key={wish.id}
-                    className="bg-background p-6 rounded-lg shadow-sm border border-border"
-                    initial={{ opacity: 0, x: -30 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.05 }}
-                  >
-                    <div className="flex items-start gap-4">
-                      <div className="w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center flex-shrink-0">
-                        <Heart className="w-5 h-5 text-gold" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center justify-between mb-2">
-                          <h4 className="font-bold text-foreground">{wish.name}</h4>
-                          <span className="text-xs text-muted-foreground font-semibold">{formatTime(wish.timestamp)}</span>
+                <>
+                  {wishes.slice(currentPage * 5, currentPage * 5 + 5).map((wish, index) => (
+                    <motion.div
+                      key={wish.id}
+                      className="bg-background p-6 rounded-lg shadow-sm border border-border"
+                      initial={{ opacity: 0, x: -30 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      exit={{ opacity: 0, x: 30 }}
+                      transition={{ duration: 0.5, delay: index * 0.1 }}
+                    >
+                      <div className="flex items-start gap-4">
+                        <div className="w-10 h-10 bg-gold/10 rounded-full flex items-center justify-center flex-shrink-0">
+                          <Heart className="w-5 h-5 text-gold" />
                         </div>
-                        <p className="text-muted-foreground text-sm leading-relaxed mb-2 font-medium">{wish.message}</p>
-                        <div className="flex items-center gap-2">
-                          <span className="text-xs text-muted-foreground font-semibold">
-                            {wish.attendance === 'yes' ? '✅ Akan hadir' : '❌ Tidak dapat hadir'}
-                          </span>
+                        <div className="flex-1">
+                          <div className="flex items-center justify-between mb-2">
+                            <h4 className="font-bold text-foreground">{wish.name}</h4>
+                            <span className="text-xs text-muted-foreground font-semibold">{formatTime(wish.timestamp)}</span>
+                          </div>
+                          <p className="text-muted-foreground text-sm leading-relaxed mb-2 font-medium">{wish.message}</p>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs text-muted-foreground font-semibold">
+                              {wish.attendance === 'hadir' ? '✅ Akan hadir' : '❌ Tidak dapat hadir'}
+                            </span>
+                          </div>
                         </div>
                       </div>
+                    </motion.div>
+                  ))}
+                  
+                  {wishes.length > 5 && (
+                    <div className="flex justify-center gap-2 mt-6">
+                      {Array.from({ length: Math.ceil(wishes.length / 5) }).map((_, idx) => (
+                        <button
+                          key={idx}
+                          onClick={() => setCurrentPage(idx)}
+                          className={`w-2 h-2 rounded-full transition-all ${
+                            currentPage === idx ? 'bg-gold w-8' : 'bg-white/30'
+                          }`}
+                        />
+                      ))}
                     </div>
-                  </motion.div>
-                ))
+                  )}
+                </>
               )}
             </div>
           )}
