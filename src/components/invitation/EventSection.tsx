@@ -7,7 +7,7 @@ const EventSection = () => {
       icon: Church,
       title: "Pemberkatan",
       date: "Jumat, 23 Januari 2026",
-      time: "10:00 WIB - Selesai",
+      time: "15:00 WIB - Selesai",
       venue: "Gereja Katholik SPM Kabanjahe",
       address: "Jl. Letnan Rata Perangin-Angin No.13, Gung Leto, Kec. Kabanjahe, Kabupaten Karo, Sumatera Utara 22111",
       mapLink: "https://www.google.com/maps/place/Gereja+Katolik+Paroki+Santa+Perawan+Maria,+Kabanjahe+Gung+Leto/@3.1004848,98.4887474,17z/data=!3m1!4b1!4m6!3m5!1s0x303101d2dd1fec0f:0x2a0617b22a4caef2!8m2!3d3.1004794!4d98.4913223!16s%2Fg%2F1238s6xf?entry=ttu&g_ep=EgoyMDI1MTIwOS4wIKXMDSoASAFQAw%3D%3D",
@@ -15,7 +15,7 @@ const EventSection = () => {
     {
       icon: PartyPopper,
       title: "Pesta Adat",
-      date: "Jumat, 24 Januari 2026",
+      date: "Sabtu, 24 Januari 2026",
       time: "10:00 WIB - Selesai",
       venue: "Jambur Milala Mas Kabanjahe",
       address: "Jl. Veteran No.50, Ketaren, Kec. Kabanjahe, Kabupaten Karo, Sumatera Utara 22152",

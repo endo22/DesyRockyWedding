@@ -9,7 +9,7 @@ const GallerySection = () => {
 
   useEffect(() => {
     // Dynamically import all images from public/img folder without eager loading
-    const imageModules = import.meta.glob('/public/img/*.webp', { as: 'url' });
+    const imageModules = import.meta.glob('/public/galeri/*.webp', { as: 'url' });
     const imagePaths = Object.keys(imageModules).map(path => path.replace('/public', ''));
     setImages(imagePaths.sort());
   }, []);

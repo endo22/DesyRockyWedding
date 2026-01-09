@@ -14,13 +14,18 @@ const MusicPlayer = ({ autoPlay = false }: MusicPlayerProps) => {
   const musicUrl = "/wedding-music.mp3";
 
   useEffect(() => {
-    if (autoPlay && audioRef.current) {
-      audioRef.current.play().then(() => {
-        setIsPlaying(true);
-      }).catch(() => {
-        // Autoplay blocked by browser, user needs to interact
-        setIsPlaying(false);
-      });
+    if (audioRef.current) {
+      // Set volume to 80%
+      audioRef.current.volume = 0.8;
+      
+      if (autoPlay) {
+        audioRef.current.play().then(() => {
+          setIsPlaying(true);
+        }).catch(() => {
+          // Autoplay blocked by browser, user needs to interact
+          setIsPlaying(false);
+        });
+      }
     }
   }, [autoPlay]);
 
